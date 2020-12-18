@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -29,12 +30,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Api(tags = "流程模型")
 @Controller
+@Slf4j
 @RequestMapping( "/activiti" )
 public class ActivitiModelController {
-    private static final Logger log = LogManager.getLogger(ActivitiModelController.class);
 
     @Autowired
     ProcessEngine processEngine;
@@ -77,7 +79,7 @@ public class ActivitiModelController {
         stencilSetNode.put("namespace",
                 "http://b3mn.org/stencilset/bpmn2.0#");
         editorNode.put("stencilset", stencilSetNode);
-        repositoryService.addModelEditorSource(id,editorNode.toString().getBytes("utf-8"));
+        repositoryService.addModelEditorSource(id,editorNode.toString().getBytes(StandardCharsets.UTF_8));
         response.sendRedirect("/modeler.html?modelId="+id);
     }
 
@@ -124,7 +126,7 @@ public class ActivitiModelController {
         String processName = modelData.getName() + ".bpmn20.xml";
         Deployment deployment = repositoryService.createDeployment()
                 .name(modelData.getName())
-                .addString(processName, new String(bpmnBytes, "UTF-8"))
+                .addString(processName, new String(bpmnBytes, StandardCharsets.UTF_8))
                 .deploy();
 
         modelData.setDeploymentId(deployment.getId());

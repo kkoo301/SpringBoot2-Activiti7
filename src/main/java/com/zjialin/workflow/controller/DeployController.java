@@ -32,7 +32,6 @@ import java.util.Map;
 @Api(tags = "部署流程、删除流程")
 @Slf4j
 public class DeployController extends BaseController {
-    private static final Logger log = LogManager.getLogger(DeployController.class);
 
 
     @PostMapping(path = "deploy")
@@ -49,6 +48,7 @@ public class DeployController extends BaseController {
             JsonNode editorNode = new ObjectMapper().readTree(sourceBytes);
             BpmnJsonConverter bpmnJsonConverter = new BpmnJsonConverter();
             BpmnModel bpmnModel = bpmnJsonConverter.convertToBpmnModel(editorNode);
+
             DeploymentBuilder deploymentBuilder = repositoryService.createDeployment()
                     .name("手动部署")
                     .enableDuplicateFiltering()

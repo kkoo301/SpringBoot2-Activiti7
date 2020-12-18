@@ -27,11 +27,11 @@ import java.util.Map;
  * @Description <p> 启动流程实例 </p>
  */
 
+
+@Slf4j
 @RestController
 @Api(tags = "启动流程实例")
-@Slf4j
 public class StartController extends BaseController {
-    private static final Logger log = LogManager.getLogger(StartController.class);
 
     @PostMapping(path = "start")
     @ApiOperation(value = "根据流程key启动流程", notes = "每一个流程有对应的一个key这个是某一个流程内固定的写在bpmn内的")

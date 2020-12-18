@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
-@RestController
 @Slf4j
+@RestController
 public class StencilsetRestResource {
-    private static final Logger log = LogManager.getLogger(StencilsetRestResource.class);
 
     @GetMapping(value = {"/service/editor/stencilset"}, produces = {"application/json;charset=utf-8"})
     @ResponseBody
@@ -23,7 +23,7 @@ public class StencilsetRestResource {
         // 文件位置需要跟stencilset.json文件放置的路径匹配,否则进入到在线编辑器页面会是一片空白,没有菜单等显示信息
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("static/stencilset.json");
         try {
-            return IOUtils.toString(inputStream, "utf-8");
+            return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new ActivitiException("Error while loading stencil set", e);
         }

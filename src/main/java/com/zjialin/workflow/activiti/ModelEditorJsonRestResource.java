@@ -2,6 +2,7 @@ package com.zjialin.workflow.activiti;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.charset.StandardCharsets;
+
+@Slf4j
 @RestController
 public class ModelEditorJsonRestResource implements ModelDataJsonConstants {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(ModelEditorJsonRestResource.class);
 
     @Autowired
     private RepositoryService repositoryService;
@@ -42,10 +45,10 @@ public class ModelEditorJsonRestResource implements ModelDataJsonConstants {
                 modelNode.put("modelId", model.getId());
                 ObjectNode editorJsonNode = (ObjectNode) this.objectMapper.readTree(new String(this.repositoryService
                         .getModelEditorSource(model
-                                .getId()), "utf-8"));
+                                .getId()), StandardCharsets.UTF_8));
                 modelNode.put("model", editorJsonNode);
             } catch (Exception e) {
-                LOGGER.error("Error creating model JSON", e);
+                log.error("Error creating model JSON", e);
                 throw new ActivitiException("Error creating model JSON", e);
             }
         }

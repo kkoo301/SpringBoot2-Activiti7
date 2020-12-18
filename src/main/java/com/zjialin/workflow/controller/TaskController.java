@@ -30,7 +30,6 @@ import java.util.Map;
 @Api(tags = "任务相关接口")
 @Slf4j
 public class TaskController extends BaseController {
-    private static final Logger log = LogManager.getLogger(TaskController.class);
 
     @PostMapping(path = "findTaskByAssignee")
     @ApiOperation(value = "根据流程assignee查询当前人的个人任务", notes = "根据流程assignee查询当前人的个人任务")

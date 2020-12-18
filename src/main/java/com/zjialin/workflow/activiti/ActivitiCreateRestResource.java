@@ -22,13 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/activiti")
 @Slf4j
 public class ActivitiCreateRestResource {
-    private static final Logger log = LogManager.getLogger(ActivitiCreateRestResource.class);
-
     /**
      * 创建模型
      */
     @RequestMapping("create")
     public void create(HttpServletRequest request, HttpServletResponse response) {
+        log.error("ActivitiCreateRestResource::create");
         try {
             ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
             RepositoryService repositoryService = processEngine.getRepositoryService();
